@@ -1,10 +1,13 @@
-from graph import Node, Edge
 from collection import defaultdict
+
+from graph import Edge, Node
+
 
 class Path:
     def __init__(self, path_id, path):
         self.path_id = path_id
         self.path = path
+
 
 class DirectGraph:
     def __init__(self, nodes, edges, paths):
@@ -14,9 +17,9 @@ class DirectGraph:
         self.edge_id_dict = {}
 
         for e in list(self.edges):
-            pair = (e.node1, e.node2) if e.node1 >  e.node2 else (e.node2, e.node1)
+            pair = (e.node1, e.node2) if e.node1 > e.node2 else (e.node2, e.node1)
             self.edge_id_dict[pair] = e.id
-    
+
     def calc_edge_weight(self):
         self.edge_weight = defaultdict(int)
 
