@@ -26,7 +26,7 @@ class DirectEdge:
 
 # NodeとPat
 class DirectGraph:
-    def __init__(self, nodes, edges, paths):
+    def __init__(self, nodes, paths):
         self.nodes = nodes
         self.paths = paths
         self.direct_edges = self.create_direct_edges()
@@ -35,6 +35,8 @@ class DirectGraph:
         # TODO; create_direct_edgesの中での処理を検討
         for e in list(self.direct_edges):
             self.edge_id_dict[(e.node_from, e.node_to)] = e.id
+
+        self.setup_edge_weight()
 
     def create_direct_edges(self):
         edge_candidates = set()
@@ -50,14 +52,13 @@ class DirectGraph:
 
         return direct_edges
 
-    def calc_edge_weight(self):
-        self.edge_weight = defaultdict(int)
+    def setup_edge_weight(self):
+        edge_weight = defaultdict(int)
 
         for path in self.paths:
             for node_id1, node_id2 in zip(path[:-1], path[1:]):
                 edge_id = self.edge_id_dict((node_id1, node_id2))
-                self.edge_weight[edge_id] += 1
+                edge_weight[edge_id] += 1
 
-    def set_edge_weight(self):
-        for edge in self.edges:
-            edge.set_weight(self.edge_weight[edge.id])
+        for edge in self.direct_edges:
+            edge.set_weight(edge_weight[edge.id])
