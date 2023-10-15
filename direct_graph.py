@@ -1,4 +1,6 @@
-from collection import defaultdict
+from collections import defaultdict
+
+from pyvis.network import Network
 
 
 class Path:
@@ -29,7 +31,7 @@ class DirectGraph:
         edge_weight = defaultdict(int)
 
         for path in self.paths:
-            for node_from, node_to in zip(path[:-1], path[1:]):
+            for node_from, node_to in zip(path.path[:-1], path.path[1:]):
                 edge_weight[(node_from, node_to)] += 1
 
         direct_edges = set()
@@ -38,3 +40,34 @@ class DirectGraph:
             direct_edges.add(DirectEdge(id, *node_pair, edge_weight[node_pair]))
 
         return direct_edges
+
+    def to_network(self):
+        network = Network(height="900px", width="900px", directed=True)
+
+        for node in self.nodes:
+            network.add_node(
+                node.id,
+                group=node.cluster_id,
+                x=node.x,
+                y=node.y,
+                borderWidth=0,
+                label=node.caption,
+                color="#a9a9a9",
+                size=3,
+                physics=False,
+            )
+
+        for edge in self.direct_edges:
+            try:
+                network.add_edge(edge.node_from, edge.node_to, width=0.2)
+            except AssertionError:
+                print(edge.node_from, " と ", edge.node_to)
+                continue
+
+        return network
+
+    def to_html(self, fname="test.html"):
+        network = self.to_network()
+        network.write_html(fname)
+
+        return network.html

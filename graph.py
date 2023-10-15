@@ -1,7 +1,6 @@
 from pyvis.network import Network
 
 from color import Color
-from networkX import NetworkX
 
 
 # (TODO) caption-> author_nameにリファクタ
@@ -74,12 +73,7 @@ class Graph:
             )
             metanodes.append(node.cluster_id)
 
-        # サイズ確認用の指標node
-        # network.add_node(9999, x=0.0, y=0.0, color="black", shape="box")
-
-        print("num node: ", len(metanodes))
-        print("num meta-node: ", len(set(metanodes)))
-
+        is_bundled = False
         # draw edges
         if is_bundled:
             # node1 -- constructors -- node2
@@ -159,8 +153,3 @@ class Graph:
     def set_node_size(self, size_mode):
         if size_mode == "same":
             return
-
-        if size_mode == "centrality":
-            centrality_dict = NetworkX(self.nodes, self.edges).get_centrality()
-            for node in list(self.nodes):
-                node.size = centrality_dict[node.id] * node.size * 100

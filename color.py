@@ -4,8 +4,6 @@ import math
 import numpy as np
 
 
-
-
 class Color:
     """
     num_colors: 用意する色数を指定(default=300)
@@ -35,5 +33,3 @@ class Color:
             color_dict[k] = color
 
         return color_dict
-
-     
