@@ -47,12 +47,12 @@ class DirectGraph:
         for node in self.nodes:
             network.add_node(
                 node.id,
-                group=node.cluster_id,
                 x=node.x,
                 y=node.y,
+                color="#a9a9a9",
+                group=node.cluster_id,
                 borderWidth=0,
                 label=node.caption,
-                color="#a9a9a9",
                 size=3,
                 physics=False,
             )
