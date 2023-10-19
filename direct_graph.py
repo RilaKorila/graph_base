@@ -50,8 +50,6 @@ class DirectGraph:
                 x=node.x,
                 y=node.y,
                 color="#a9a9a9",
-                group=node.cluster_id,
-                borderWidth=0,
                 label=node.caption,
                 size=3,
                 physics=False,
@@ -59,7 +57,9 @@ class DirectGraph:
 
         for edge in self.direct_edges:
             try:
-                network.add_edge(edge.node_from, edge.node_to, width=0.2)
+                network.add_edge(
+                    edge.node_from, edge.node_to, width=1.0, color="#a9a9a9"
+                )
             except AssertionError:
                 print(edge.node_from, " と ", edge.node_to)
                 continue
